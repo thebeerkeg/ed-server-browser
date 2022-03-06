@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Server Browser</title>
+    <link rel="stylesheet" href="style.css">
+
+    <script type="text/javascript" src="dew://lib/jquery-2.2.1.min.js"></script>
+    <!-- Window Resize-->
+    <script src="window-resize-1080.js"></script>
+    <link rel="stylesheet" type="text/css" href="window-resize-1080.css" />
+    <!--SweetAlert2-->
+    <script src="sweetalert2.all.js"></script>
+
+</head>
+
+<body>
+    <div id="container">
+        <div class="page_content container">
+            <div class="server-list-header">
+                <div id="topInfo">
+                    <p id="menuTitle">Server Browser🍺</p>
+                    <p id="population"></p>
+                </div>
+                <div class="playlist-tabs">
+                    <ul id="playlistTabs">
+                        <li>
+                            <div class="bottomfilters">
+                                <span class="ping">Playlist:</span>
+                                    <select id="playlistSelector">
+                                            <option value="all" selected="selected">All</option>
+                                            <option value="social">Social</option>
+                                            <option value="ranked">Ranked</option>
+                                            <option value="customs">Customs</option>
+                                    </select>
+                                <span class="ping">Gametype:</span>
+                                    <select id="gametypefilter">
+                                            <option value="all" selected="selected">All</option>
+                                            <option value="slayer">Slayer</option>
+                                            <option value="koth">KOTH</option>
+                                            <option value="ctf">CTF</option>
+                                            <option value="assault">Assault</option>
+                                            <option value="infection">Infection</option>
+                                            <option value="juggernaut">Juggernaut</option>
+                                            <option value="vip">VIP</option>
+                                            <option value="oddball">Oddball</option>
+                                            <option value="forge">Forge</option>
+                                    </select>
+                                <span class="ping">Max Ping:</span>
+                                    <select id="maxping">
+                                            <option value="1000">All</option>
+                                            <option value="400" selected="selected">400</option>
+                                            <option value="200">200</option>
+                                            <option value="100">100</option>
+                                    </select>
+                                <span class="ping">Hide Empty:</span>
+                                <input id="hasplayers" class="mycheckbox" type="checkbox" name="hasplayers">
+                                <label for="hasplayers"></label>
+                                <span class="ping">Hide Full:</span>
+                                <input id="hidefull" class="mycheckbox" type="checkbox" name="hidefull">
+                                <label for="hidefull"></label>
+                            </div>
+                        </li>
+                        <li><div id="serverSearch">
+                        <input id="server-list-filter" type="text" placeholder="search...">
+                        <button id="refresh">Refresh</button>
+                    </div></li>
+                    </ul>  
+                </div>
+            </div> 
+            <div id="server-list-wrap"></div>
+        </div>
+    </div>
+    <script crossorigin src="dew://lib/dew.js"></script>
+    <script crossorigin src="./ui.js"></script>
+    <script crossorigin src="./list-widget.js"></script>
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="browser.js" type="text/javascript"></script>
+</body>
+
+</html>
