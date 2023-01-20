@@ -1,8 +1,8 @@
 const masterServers = [
-    "http://83.84.157.154:3000/list",
-    "http://eldewrito.red-m.net/list",
-    "http://158.69.166.144:8080/list"
+    "http://ed.thebeerkeg.net/server/list",
+    "http://eldewrito.red-m.net/list"
 ];
+
 const playlists = ['all', 'social','ranked','customs','favourites'];
 
 let pingQueue = [];
@@ -46,18 +46,18 @@ serverListWidget.on('select', function(e) {
         return;
 
     e.preventSound();
-    
+
     if(!$('body').hasClass('swal2-shown')){
         if(e.element.dataset.type == "private") {
-            swal({   
-                title: "Private Server", 
+            swal({
+                title: "Private Server",
                 input: "password",
                 inputPlaceholder: "Please enter password",
                 showCancelButton: true,
                 preConfirm: function (inputValue) {
-                    return new Promise(function (resolve, reject) {  
-                        if (inputValue === "") {     
-                            swal.showValidationError("Passwords are never blank");     
+                    return new Promise(function (resolve, reject) {
+                        if (inputValue === "") {
+                            swal.showValidationError("Passwords are never blank");
                         } else {
                             dew.command('Server.connect '+ server + ' ' + inputValue, function() {
                                 swal.close();
@@ -99,13 +99,13 @@ window.addEventListener("keydown", function(e) {
 
 dew.on('show', function() {
     visible = true;
-    
+
     dew.getVersion().then(function (version) {
         if(parseVersion(version) < parseVersion("0.6.1")) {
             dew.command('Game.HideChat 1');
         }
     });
-    
+
     dew.command('Game.HideH3UI 1');
     dew.command('Settings.Gamepad').then((result) => {
         result = parseInt(result);
@@ -160,7 +160,7 @@ dew.ui.on('action', function({inputType, action}) {
         case dew.ui.Actions.X:
         if(inputType !== 'keyboard') {
             handleUserRefresh();
-        }         
+        }
         break;
         case dew.ui.Actions.B:
             if(!$('body').hasClass('swal2-shown')){
@@ -178,10 +178,10 @@ dew.ui.on('action', function({inputType, action}) {
             dew.ui.playSound(dew.ui.Sounds.LeftBumper);
             break;
         case dew.ui.Actions.RightBumper:
-            navigatePlaylists(1);  
-            dew.ui.playSound(dew.ui.Sounds.RightBumper);     
+            navigatePlaylists(1);
+            dew.ui.playSound(dew.ui.Sounds.RightBumper);
         break;
-    }  
+    }
 });
 
 function handleUserRefresh() {
@@ -208,20 +208,20 @@ function cancelRefresh() {
     while(inflightRequests.length) {
         let request = inflightRequests.pop();
         request.abort();
-    }    
+    }
     onRefreshEnded();
     refreshVersion++;
 }
 
 function refresh() {
     cancelRefresh();
-    
+
     model.currentServerList = [];
     model.playerCount = 0;
     model.serverCount = 0;
     officialServers = {};
     quickJoinIgnore = {};
-  
+
     onRefreshStarted();
     render();
 
@@ -287,7 +287,7 @@ function serverPingProc() {
             onRefreshEnded();
 
         if(refreshVersion != serverInfo.refreshVersion)
-            return;  
+            return;
     });
 }
 
@@ -324,7 +324,7 @@ function ping(info) {
         xhr.timeout = 3000;
 
         let startTime = -1;
-    
+
         xhr.ontimeout = rejeect;
         xhr.onerror = rejeect;
         xhr.onload = function() {
@@ -353,13 +353,13 @@ function ping(info) {
                 version: data.eldewritoVersion
             });
         }
-       
+
 
         startTime = Date.now();
         inflightRequests.push(xhr);
         xhr.send();
     });
-    
+
 }
 
 function ServerRow(server, connectCallback) {
@@ -412,7 +412,7 @@ function ServerRow(server, connectCallback) {
             null,
             sanitize(`${server.version}`)
         )
-    
+
     );
 }
 
@@ -536,7 +536,7 @@ function addServer(server) {
     sortme(model.currentSortKey);
 }
 var serverComparators = {
-    
+
     asc: function (a, b) {
         let key = model.currentSortKey;
         let aval = a[key];
@@ -575,7 +575,7 @@ function sortme() {
         rest.push(server);
         /*
         if(server.pinned) {
-            top.push(server); 
+            top.push(server);
         } else {
             rest.push(server);
         }*/
@@ -627,7 +627,7 @@ function onHideFull(query) {
 
 function onGametype(query) {
     if(query == 'all') {
-       model.currentGametype = ['slayer', 'koth', 'ctf', 'assault', 'infection', 'juggernaut', 'vip', 'oddball', 'forge', 'none']; 
+       model.currentGametype = ['slayer', 'koth', 'ctf', 'assault', 'infection', 'juggernaut', 'vip', 'oddball', 'forge', 'none'];
     } else {
     model.currentGametype = query;
     }
@@ -655,7 +655,7 @@ function onGametype(query) {
             return server.type !== 'ranked' && server.type !== 'social' && server.type !== 'private' && server.variantType === 'forge' && server.ping <= model.currentMaxPing && model.currentGametype.includes(server.variantType) && server.numPlayers >= model.currentHasPlayers;
         }
     }
-    
+
 let playlistFiltersFull = {
         all: function(server) {
             return server.type !== 'private' && server.ping <= model.currentMaxPing && model.currentGametype.includes(server.variantType) && server.numPlayers >= model.currentHasPlayers && server.numPlayers < server.maxPlayers;
@@ -703,7 +703,7 @@ window.addEventListener("hashchange", function(e) {
     let hash = window.location.hash;
     if(hash.length < 2)
         return;
-    
+
     selectPlaylist(hash.substr(1));
     e.preventDefault();
     e.stopPropagation();
@@ -745,7 +745,7 @@ function quickJoin() {
 
     if(!chosenServer)
         return;
-      
+
     quickJoinIgnore[chosenServer.IP] = true;
     dew.command(`Server.connect ${chosenServer.IP}`)
         .catch(err => {
@@ -760,11 +760,11 @@ function serverQueue(server) {
     let sinfo = {
         server: server
     }
-    
+
     checking = setInterval( function() {checkServer(sinfo)}, 3000);
-    
-    swal({   
-        title: "Waiting for a spot..", 
+
+    swal({
+        title: "Waiting for a spot..",
         text: "Sit back and relax, you will auto-join the server when there is a spot!",
         showCancelButton: true,
         showConfirmButton: false,
@@ -810,15 +810,15 @@ swal.setDefaults({
     cancelButtonText: "<img src='dew://assets/buttons/XboxOne_B.png'>Cancel"
 })
 
-function parseVersion(str) { 
+function parseVersion(str) {
     var result = 0;
     var suffixPos = str.indexOf('-');
     if(suffixPos != -1)
         str = str.substr(0, suffixPos);
-    
+
     var parts = str.split('.');
     for(var i = 0; i < parts.length && i < 4; i++) {
         result |= (parseInt(parts[i]) << (24-(i*8)));
-    }  
+    }
     return result;
 }
