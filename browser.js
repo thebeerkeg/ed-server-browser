@@ -5,6 +5,7 @@ const masterServers = [
 
 const playlists = ['all', 'social','ranked','customs','favourites'];
 
+let msCounter = 0;
 let pingQueue = [];
 let pingCounter= 0;
 let pingSet = {};
@@ -216,6 +217,7 @@ function cancelRefresh() {
 function refresh() {
     cancelRefresh();
 
+    msCounter = masterServers.length;
     model.currentServerList = [];
     model.playerCount = 0;
     model.serverCount = 0;
@@ -226,6 +228,8 @@ function refresh() {
     render();
 
     let visited = {};
+
+
     for (let i = 0; i< masterServers.length; i++){
         fetch(masterServers[i], {})
         .then((resp) => resp.json())
@@ -240,6 +244,8 @@ function refresh() {
                 pingCounter++;
                 pingQueue.push( { server: serverIP, refreshVersion: refreshVersion } );
             }
+
+            msCounter--;
         });
     }
 }
@@ -274,7 +280,7 @@ function serverPingProc() {
     .catch(() => {})
     .then(() => {
 
-        if(--pingCounter <= 0)
+        if(--pingCounter <= 0 && msCounter <= 0)
             onRefreshEnded();
 
         if(refreshVersion != serverInfo.refreshVersion)
