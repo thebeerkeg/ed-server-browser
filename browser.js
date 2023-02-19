@@ -225,8 +225,16 @@ function refresh() {
     onRefreshStarted();
     render();
 
-    let visited = {};
+    fetch('http://new.halostats.click/api/officialservers', {})
+    .then((resp) => resp.json())
+    .then(resp => {
+        for(let server of resp) {
+            officialServers[server.address] = server
+        }
+        render();
+    });
 
+    let visited = {};
     for (let i = 0; i< masterServers.length; i++){
         fetch(masterServers[i], {})
         .then((resp) => resp.json())
@@ -243,16 +251,14 @@ function refresh() {
             }
         });
     }
-
-    if(!serverPingInterval) {
-        serverPingInterval = serverPingProc;
-    }
 }
 
 function onRefreshStarted() {
     var refreshButton = document.getElementById('refresh');
     refreshButton.classList.add('refreshing');
     refreshing = true;
+    if(!serverPingInterval)
+        serverPingInterval = setInterval(serverPingProc, 25);
 }
 
 
@@ -260,6 +266,7 @@ function onRefreshEnded() {
     var refreshButton = document.getElementById('refresh');
     refreshButton.classList.remove('refreshing');
     refreshing = false;
+    clearInterval(serverPingInterval);
     serverPingInterval = null;
 }
 
