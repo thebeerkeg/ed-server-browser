@@ -225,15 +225,6 @@ function refresh() {
     onRefreshStarted();
     render();
 
-    fetch('http://new.halostats.click/api/officialservers', {})
-    .then((resp) => resp.json())
-    .then(resp => {
-        for(let server of resp) {
-            officialServers[server.address] = server
-        }
-        render();
-    });
-
     let visited = {};
     for (let i = 0; i< masterServers.length; i++){
         fetch(masterServers[i], {})
