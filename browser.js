@@ -2,7 +2,8 @@ const masterServers = [
     "http://ed.thebeerkeg.net/server/list",
     "http://eldewrito.red-m.net/list",
     "http://eldewrito.pauwlo.fr:7000/master",
-    "http://icebox.mx.mt/list"
+    "http://icebox.mx.mt/list",
+    "http://master.zgaf.io/list"
 ];
 
 const playlists = ['all', 'social','ranked','customs','favourites'];
